@@ -26,7 +26,7 @@ export default function Header({ user, profileInfo }) {
     {
       label: "Activity",
       path: "/activity",
-      show: user,
+      show: profileInfo?.role === "candidate",
     },
     {
       label: "Jobs",
