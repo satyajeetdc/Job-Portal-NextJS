@@ -71,11 +71,22 @@ export default function CandidateJobCard({
                 <Button
                   className="flex h-11 items-center justify-center px-5"
                   onClick={handleJobApply}
+                  disabled={
+                    jobApplications.findIndex(
+                      (item) => item.jobID === jobItem?._id
+                    ) > -1
+                      ? true
+                      : false
+                  }
                 >
-                  Apply
+                  {jobApplications.findIndex(
+                    (item) => item.jobID === jobItem?._id
+                  ) > -1
+                    ? "Applied"
+                    : "Apply"}
                 </Button>
                 <Button
-                  className="flex h-11 items-center justify-center px-5"
+                  className="disabled:opacity-65 flex h-11 items-center justify-center px-5"
                   onClick={() => setShowJobDetailsDrawer(false)}
                 >
                   Cancel
