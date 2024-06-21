@@ -36,3 +36,9 @@ export async function fetchJobsForRecruiterAction(id) {
 }
 
 // fetch job action - Candidate
+export async function fetchJobsForCandidateAction() {
+  await connectToDB();
+  const result = await Job.find({});
+
+  return JSON.parse(JSON.stringify(result));
+}
