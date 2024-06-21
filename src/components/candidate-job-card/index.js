@@ -15,9 +15,33 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { createJobApplicationAction } from "@/actions";
 
-export default function CandidateJobCard({ jobItem }) {
+export default function CandidateJobCard({
+  jobItem,
+  profileInfo,
+  jobApplications,
+}) {
   const [showJobDetailsDrawer, setShowJobDetailsDrawer] = useState(false);
+
+  console.log(jobApplications, "jobApplications");
+
+  async function handleJobApply() {
+    await createJobApplicationAction(
+      {
+        recruiterUserID: jobItem?.recruiterId,
+        name: profileInfo?.candidateInfo?.name,
+        email: profileInfo?.email,
+        candidateUserID: profileInfo?.userId,
+        status: ["Applied"],
+        jobID: jobItem?._id,
+        jobAppliedDate: new Date().toLocaleDateString(),
+      },
+      "/jobs"
+    );
+    setShowJobDetailsDrawer(false);
+  }
+
   return (
     <Fragment>
       <Drawer
@@ -44,7 +68,12 @@ export default function CandidateJobCard({ jobItem }) {
                 {jobItem?.title}
               </DrawerTitle>
               <div className="flex gap-3">
-                <Button>Apply</Button>
+                <Button
+                  className="flex h-11 items-center justify-center px-5"
+                  onClick={handleJobApply}
+                >
+                  Apply
+                </Button>
                 <Button
                   className="flex h-11 items-center justify-center px-5"
                   onClick={() => setShowJobDetailsDrawer(false)}
