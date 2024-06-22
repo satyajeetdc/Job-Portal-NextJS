@@ -72,7 +72,7 @@ export default function OnBoard() {
 
   function handleCandidateFormValid() {
     return Object.keys(candidateFormData).every(
-      (key) => candidateFormData[key].trim() !== ""
+      (key) => candidateFormData[key].trim() !== " "
     );
   }
 

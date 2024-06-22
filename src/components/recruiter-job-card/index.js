@@ -1,16 +1,31 @@
+import { useState } from "react";
 import CommonCard from "../common-card";
 import JobIcon from "../job-icon";
 import { Button } from "../ui/button";
+import JobApplicants from "../job-applicants";
 
 export default function RecruiterJobCard({ jobItem, jobApplications }) {
-  console.log(jobApplications, "jobApplications for recruiter");
+  const [showApplicantsDrawer, setShowApplicantsDrawer] = useState(false);
+  const [currentCandidateDetails, setCurrentCandidateDetails] = useState(null);
+  const [
+    showCurrentCandidateDetailsModal,
+    setShowCurrentCandidateDetailsModal,
+  ] = useState(false);
+
   return (
     <div>
       <CommonCard
         icon={<JobIcon />}
         title={jobItem?.title}
         footerContent={
-          <Button className="flex h-11 items-center justify-center px-5">
+          <Button
+            onClick={() => setShowApplicantsDrawer(true)}
+            className="disabled:opacity-55 flex h-11 items-center justify-center px-5"
+            disabled={
+              jobApplications.filter((item) => item.jobID === jobItem?._id)
+                .length === 0
+            }
+          >
             {
               jobApplications.filter((item) => item.jobID === jobItem?._id)
                 .length
@@ -18,6 +33,20 @@ export default function RecruiterJobCard({ jobItem, jobApplications }) {
             Applicants
           </Button>
         }
+      />
+      <JobApplicants
+        jobItem={jobItem}
+        showApplicantsDrawer={showApplicantsDrawer}
+        setShowApplicantsDrawer={setShowApplicantsDrawer}
+        showCurrentCandidateDetailsModal={showCurrentCandidateDetailsModal}
+        setShowCurrentCandidateDetailsModal={
+          setShowCurrentCandidateDetailsModal
+        }
+        currentCandidateDetails={currentCandidateDetails}
+        setCurrentCandidateDetails={setCurrentCandidateDetails}
+        jobApplications={jobApplications.filter(
+          (jobApplicantItem) => jobApplicantItem.jobID === jobItem?._id
+        )}
       />
     </div>
   );
